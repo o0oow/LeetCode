@@ -7,6 +7,23 @@ import (
 	"unicode"
 )
 
+func compress(chars []byte) int {
+	s := strings.Builder{}
+	n := 0
+	for _, v := range chars {
+		n = strings.Count(string(chars), string(v))
+		if !strings.Contains(s.String(), string(v)) {
+			s.WriteByte(v)
+			if n > 1 {
+				s.WriteString(strconv.Itoa(n))
+			} else {
+				s.WriteString("")
+			}
+		}
+	}
+	return len(s.String())
+}
+
 func reverse(x int) int {
 	str := ""
 	cur := 0
@@ -61,21 +78,9 @@ func range1(n int) int {
 	return n
 }
 
-func addSpaces(s string, spaces []int) string {
-	s1 := ""
-	n := 0
-	for _, indexval := range spaces {
-		s1 += s[n:indexval] + " "
-		n = indexval
-	}
-	s1 += s[n:]
-	return s1
-}
-
 func addSpaces1(s string, spaces []int) string {
 	var result strings.Builder
 	prev := 0
-
 	for _, index := range spaces {
 		result.WriteString(s[prev:index])
 		result.WriteByte(' ')
@@ -132,26 +137,68 @@ func (l *ListNode) Print() {
 	}
 	fmt.Print("nil")
 }
-
-func addTwoNumbers(l1 *ListNode, l2 *ListNode) int {
-	if l1 == nil {
-		//	return l2
-	} else if l2 == nil {
-		//	return l1
+func (l *ListNode) Length() int {
+	n := 0
+	cur := l.Head
+	if cur == nil {
+		return 0
 	}
-	var res1, res2 strings.Builder
-	//res := &ListNode{}
+	for cur != nil {
+		cur = cur.Next
+		n++
+	}
+	return n
+}
+
+func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+	if l1 == nil {
+		return l2
+	} else if l2 == nil {
+		return l1
+	}
 	cur1 := l1.Tail
 	cur2 := l2.Tail
-	for cur1 != nil {
-		res1.WriteString(string(cur1.Val))
-		cur1 = cur1.Prev
+	res := &ListNode{}
+	carry := 0
+	for cur1 != nil || cur2 != nil || carry > 0 {
+		val1, val2 := 0, 0
+
+		if cur1 != nil {
+			val1 = cur1.Val
+			cur1 = cur1.Prev
+		}
+		if cur2 != nil {
+			val2 = cur2.Val
+			cur2 = cur2.Prev
+		}
+		sum := val1 + val2 + carry
+		carry = sum / 10
+		res.Append(sum % 10)
 	}
-	for cur2 != nil {
-		res2.WriteString(string(cur2.Val))
-		cur2 = cur2.Prev
+
+	return res
+}
+
+func getSum(a int, b int) int {
+	if a >= 0 && b >= 0 {
+		for i := 0; i < b; i++ {
+			a++
+		}
+		return a
+	} else if a > 0 && b < 0 {
+		for i := 0; i < a; i++ {
+			b++
+		}
+		return b
+	} else if a < 0 && b > 0 {
+		for i := 0; i < b; i++ {
+			a++
+		}
+		return a
+	} else {
+		for i := 0; i > b; i-- {
+			a--
+		}
+		return a
 	}
-	r, _ := strconv.Atoi(res1.String())
-	r2, _ := strconv.Atoi(res2.String())
-	return r + r2
 }
