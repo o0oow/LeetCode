@@ -7,12 +7,12 @@ import (
 	"unicode"
 )
 
-func compress(chars []byte) int {
+func compress(chars []byte) []byte {
 	s := strings.Builder{}
 	n := 0
 	for _, v := range chars {
-		n = strings.Count(string(chars), string(v))
 		if !strings.Contains(s.String(), string(v)) {
+			n = strings.Count(string(chars), string(v))
 			s.WriteByte(v)
 			if n > 1 {
 				s.WriteString(strconv.Itoa(n))
@@ -21,7 +21,8 @@ func compress(chars []byte) int {
 			}
 		}
 	}
-	return len(s.String())
+	chars = []byte(s.String())
+	return chars
 }
 
 func reverse(x int) int {
