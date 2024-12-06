@@ -7,18 +7,23 @@ import (
 	"unicode"
 )
 
-func canChange(start string, target string) bool {
-	i := 0
-	j := len(start) - 1
-	s := strings.Builder{}
-	for k, v := range start {
-		if string(start[k]) == "L" {
-			s.WriteString(string(v) + strings.Repeat("_", k-1))
-		}
+func maxCount1(banned []int, n int, maxSum int) int {
 
-	}
-	return true
+	return 1
 }
+
+//	func canChange(start string, target string) bool {
+//		i := 0
+//		j := len(start) - 1
+//		s := strings.Builder{}
+//		for k, v := range start {
+//			if string(start[k]) == "L" {
+//				s.WriteString(string(v) + strings.Repeat("_", k-1))
+//			}
+//
+//		}
+//		return true
+//	}
 func compress(chars []byte) int {
 	s := strings.Builder{}
 	n := 0
@@ -214,4 +219,22 @@ func getSum(a int, b int) int {
 		}
 		return a
 	}
+}
+
+func maxCount(banned []int, n int, maxSum int) int {
+	BanMap := make(map[int]bool)
+	for _, val := range banned {
+		BanMap[val] = true
+	}
+	var sum, count int
+	for i := 1; i <= n; i++ {
+		if BanMap[i] {
+			continue
+		}
+		sum += i
+		if sum <= maxSum {
+			count++
+		}
+	}
+	return count
 }
