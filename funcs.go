@@ -7,7 +7,19 @@ import (
 	"unicode"
 )
 
-func compress(chars []byte) []byte {
+func canChange(start string, target string) bool {
+	i := 0
+	j := len(start) - 1
+	s := strings.Builder{}
+	for k, v := range start {
+		if string(start[k]) == "L" {
+			s.WriteString(string(v) + strings.Repeat("_", k-1))
+		}
+
+	}
+	return true
+}
+func compress(chars []byte) int {
 	s := strings.Builder{}
 	n := 0
 	for _, v := range chars {
@@ -22,7 +34,7 @@ func compress(chars []byte) []byte {
 		}
 	}
 	chars = []byte(s.String())
-	return chars
+	return len(chars)
 }
 
 func reverse(x int) int {
