@@ -3,8 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	var char string = ""
-	char1 := []byte(char)
-	fmt.Println(compress(char1))
-	fmt.Println(string(char1))
+
+	//	fmt.Println(isSubsequence("twn", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxtxxxxxxxxxxxxxxxxxxxxwxxxxxxxxxxxxxxxxxxxxxxxxxn"))
+	i := []int{2, 1, 3, 5, 6}
+	fmt.Println(getFinalState(i, 5, 2))
 }

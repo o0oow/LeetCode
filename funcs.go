@@ -2,11 +2,102 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 	"unicode"
 )
 
+func getFinalState(nums []int, k int, multiplier int) []int {
+	j := 0
+	for i := 0; i < k; i++ {
+		j = findMinIndex(nums)
+		nums[j] *= multiplier
+	}
+	return nums
+}
+func isSubsequence(s string, t string) bool {
+	if len(s) <= 1 {
+		return strings.Contains(t, s)
+	}
+	count := 1
+	s1 := make([]int, 0)
+	if len(t) > len(s) {
+		s1 = append(s1, strings.Index(t, string(s[0])))
+		for i := 1; i < len(s); i++ {
+
+			s1 = append(s1, strings.Index(t, string(s[i])))
+		}
+		for i := 0; i < len(s1)-1; i++ {
+			if s1[i] < s1[i+1] {
+				count++
+			}
+		}
+	} else {
+		return false
+	}
+	return count == len(s)
+}
+
+func binarySearch(arr []string, target string) bool {
+	left, right := 0, len(arr)-1
+
+	for left <= right {
+		mid := left + (right-left)/2 // Избегаем переполнения при больших значениях
+		if arr[mid] == target {
+			return true // Элемент найден
+		} else if arr[mid] < target {
+			left = mid + 1 // Сужаем поиск к правой половине
+		} else {
+			right = mid - 1 // Сужаем поиск к левой половине
+		}
+	}
+
+	return false // Элемент не найден
+}
+func minimumSize(s []int, maxOperations int) int {
+	m := 0
+	z := 0
+	for z < maxOperations {
+		//m = findMinIndex(Index(s))
+		if s[m] > 1 {
+			part1 := s[m] / 2
+			part2 := s[m]/2 + s[m]%2
+			if part1 > 0 && part2 > 0 && part1+part2 == s[m] {
+				s = append(s[:m], append([]int{part1, part2}, s[m+1:]...)...)
+			}
+		}
+		z++
+	}
+	min1 := s[0]
+	for _, v := range s {
+		if min1 > v {
+			min1 = v
+		}
+	}
+
+	return min1
+}
+func findMinIndex(arr []int) int {
+	maxIndex := 0
+	for i := 1; i < len(arr); i++ {
+		if arr[i] < arr[maxIndex] {
+			maxIndex = i
+		}
+	}
+	return maxIndex
+}
+func isPrime(n int) bool {
+	if n < 2 {
+		return false
+	}
+	for i := 2; i <= int(math.Sqrt(float64(n))); i++ {
+		if n%i == 0 {
+			return false // Найден делитель, значит число не простое
+		}
+	}
+	return true
+}
 func maxCount1(banned []int, n int, maxSum int) int {
 
 	return 1
