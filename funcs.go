@@ -8,6 +8,175 @@ import (
 	"unicode"
 )
 
+func intersection(nums1 []int, nums2 []int) []int {
+	c1 := make(map[int]int)
+	c2 := make(map[int]int)
+	n := make([]int, 0)
+	for _, v := range nums1 {
+		c1[v]++
+	}
+	for _, v := range nums2 {
+		c2[v]++
+	}
+	if len(c1) > len(c2) {
+		for v, _ := range c1 {
+			if c1[v] >= 1 && c2[v] >= 1 {
+				n = append(n, v)
+			}
+		}
+	} else {
+		for v, _ := range c2 {
+			if c1[v] >= 1 && c2[v] >= 1 {
+				n = append(n, v)
+			}
+		}
+	}
+	return n
+}
+func uncommonFromSentences(s1 string, s2 string) []string {
+	c1 := make(map[string]int)
+	c2 := make(map[string]int)
+	s11 := strings.Split(s1, " ")
+	s22 := strings.Split(s2, " ")
+	s33 := make([]string, 0)
+	for _, v := range s11 {
+		c1[v]++
+	}
+	for _, v := range s22 {
+		c2[v]++
+	}
+	for v, _ := range c1 {
+		if (c1[v] == 1 && c2[v] == 0) || (c1[v] == 0 && c2[v] == 1) {
+			s33 = append(s33, v)
+		}
+	}
+	for v, _ := range c2 {
+		if (c1[v] == 1 && c2[v] == 0) || (c1[v] == 0 && c2[v] == 1) {
+			s33 = append(s33, v)
+		}
+	}
+	return s33
+}
+func countWords(words1 []string, words2 []string) int {
+	c1 := make(map[string]int)
+	c2 := make(map[string]int)
+
+	count := 0
+	for _, v := range words1 {
+		c1[v]++
+	}
+	for _, v := range words2 {
+		c2[v]++
+	}
+	if len(words1) > len(words2) {
+		for v, _ := range c1 {
+			if c1[v] == 1 && c2[v] == 1 {
+				count++
+			}
+		}
+	} else {
+		for v, _ := range c2 {
+			if c1[v] == 1 && c2[v] == 1 {
+				count++
+			}
+		}
+	}
+	return count
+
+}
+
+func kthDistinct(arr []string, k int) string {
+	c := make(map[string]int)
+	for _, v := range arr {
+		c[v]++
+	}
+	for _, v := range arr {
+		if c[v] == 1 {
+			k--
+		}
+		if k == 0 {
+			return v
+		}
+	}
+	return ""
+}
+func maximumNumberOfStringPairs(words []string) int {
+	count := 0
+	for i := 0; i < len(words)-1; i++ {
+		j := i + 1
+		for j < len(words) {
+			if words[i] == Reverse(words[j]) {
+				count++
+				break
+			} else {
+				j++
+			}
+		}
+	}
+	return count
+}
+func Reverse(s string) string {
+	var s1 string
+	for i := len(s) - 1; i >= 0; i-- {
+		s1 += string(s[i])
+	}
+	return s1
+}
+func sortPeople(names []string, heights []int) []string {
+	m := make(map[int]string)
+	for i := 0; i < len(names); i++ {
+		m[heights[i]] = names[i]
+	}
+	heights = quickSortDescending(heights)
+	for i := 0; i < len(names); i++ {
+		names[i] = m[heights[i]]
+	}
+	return names
+}
+func quickSortDescending(arr []int) []int {
+	// Базовый случай: массив длиной 0 или 1 уже отсортирован
+	if len(arr) <= 1 {
+		return arr
+	}
+
+	// Опорный элемент
+	pivot := arr[len(arr)/2]
+
+	// Три части: больше, равны, меньше
+	greater := []int{}
+	equal := []int{}
+	less := []int{}
+
+	for _, num := range arr {
+		if num > pivot {
+			greater = append(greater, num)
+		} else if num == pivot {
+			equal = append(equal, num)
+		} else {
+			less = append(less, num)
+		}
+	}
+
+	// Рекурсивно сортируем части и объединяем
+	return append(append(quickSortDescending(greater), equal...), quickSortDescending(less)...)
+}
+
+func finalPrices(prices []int) []int {
+
+	for i := 0; i < len(prices)-1; i++ {
+		j := i + 1
+		for j <= len(prices)-1 {
+			if prices[j] <= prices[i] {
+				prices[i] -= prices[j]
+				break
+			} else {
+				j++
+			}
+		}
+	}
+	return prices
+}
+
 func getFinalState(nums []int, k int, multiplier int) []int {
 	j := 0
 	for i := 0; i < k; i++ {
