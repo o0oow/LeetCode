@@ -8,6 +8,86 @@ import (
 	"unicode"
 )
 
+func reportSpam(message []string, bannedWords []string) bool {
+	m, n := make(map[string]int, 0), make(map[string]int, 0)
+	count := 0
+	for _, v := range message {
+		m[v]++
+	}
+	for _, v := range bannedWords {
+		n[v]++
+	}
+
+	for in, _ := range n {
+		if i, exists := m[in]; exists {
+			count += i
+		}
+	}
+	return count > 1
+}
+func maxSatisfaction(satisfaction []int) int {
+	quickSortDescending(satisfaction)
+
+	maxCoefficient := 0
+	currentSum := 0
+	cumulativeSum := 0
+
+	// Iterate through the sorted satisfaction array
+	for _, s := range satisfaction {
+		cumulativeSum += s          // Update cumulative sum
+		currentSum += cumulativeSum // Update current coefficient
+
+		// Update the maximum coefficient
+		if currentSum > maxCoefficient {
+			maxCoefficient = currentSum
+		}
+	}
+
+	return maxCoefficient
+}
+func defangIPaddr(address string) string {
+	return strings.Replace(address, ".", "[.]", -1)
+}
+func maxChunksToSorted(arr []int) int {
+	n := len(arr)
+	prefixMax := make([]int, n)
+	suffixMin := make([]int, n)
+
+	// Заполняем prefixMax
+	prefixMax[0] = arr[0]
+	for i := 1; i < n; i++ {
+		prefixMax[i] = int(math.Max(float64(prefixMax[i-1]), float64(arr[i])))
+	}
+
+	// Заполняем suffixMin в обратном порядке
+	suffixMin[n-1] = arr[n-1]
+	for i := n - 2; i >= 0; i-- {
+		suffixMin[i] = int(math.Min(float64(suffixMin[i+1]), float64(arr[i])))
+	}
+
+	// Считаем количество блоков
+	chunks := 0
+	for i := 0; i < n-1; i++ {
+		if prefixMax[i] <= suffixMin[i+1] {
+			chunks++
+		}
+	}
+
+	// Добавляем последний блок
+	return chunks + 1
+}
+
+func maxChunksToSorted1(arr []int) int {
+	chunks := 0
+	currentMax := 0
+	for i, value := range arr {
+		currentMax = int(math.Max(float64(currentMax), float64(value)))
+		if currentMax == i {
+			chunks++
+		}
+	}
+	return chunks
+}
 func intersection(nums1 []int, nums2 []int) []int {
 	c1 := make(map[int]int)
 	c2 := make(map[int]int)
