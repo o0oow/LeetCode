@@ -5,7 +5,8 @@ import "fmt"
 func main() {
 
 	//	fmt.Println(isSubsequence("twn", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxtxxxxxxxxxxxxxxxxxxxxwxxxxxxxxxxxxxxxxxxxxxxxxxn"))
-	i := []int{5, 25, 75}
-	fmt.Println(twoSum(i, 100))
+	i := []int{1, 2, 2, 1}
+	j := []int{2, 2}
+	fmt.Println(intersection(i, j))
 
 }
