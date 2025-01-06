@@ -8,6 +8,49 @@ import (
 	"unicode"
 )
 
+func twoSum(numbers []int, target int) []int {
+	var b []int
+	i, j := 0, len(numbers)-1
+	for i < len(numbers) {
+		if (numbers[i] + numbers[j]) == target {
+			b = append(b, i+1, j+1)
+			return b
+		} else if numbers[i]+numbers[j] > target {
+			j--
+		} else {
+			i++
+		}
+
+	}
+	return b
+}
+func reverseStr(s string, k int) string {
+	s1 := []byte(s)
+	var i, j int
+	x := 0
+	n := len(s1) / (k * 2)
+	for z := 0; z < n; z++ {
+		i = z * 2 * k
+		j = z*2*k + (k - 1)
+		for x < k/2 {
+			s1[i], s1[j] = s1[j], s1[i]
+			i++
+			j--
+			x++
+		}
+		x = 0
+
+	}
+	return string(s1)
+}
+func reverseString(s []byte) {
+	i, j := 0, len(s)-1
+	for i < len(s)/2 {
+		s[i], s[j] = s[j], s[i]
+		i++
+		j--
+	}
+}
 func intersection(nums1 []int, nums2 []int) []int {
 	c1 := make(map[int]int)
 	c2 := make(map[int]int)
