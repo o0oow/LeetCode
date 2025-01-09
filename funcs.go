@@ -8,6 +8,16 @@ import (
 	"unicode"
 )
 
+func prefixCount(words []string, pref string) int {
+	c := 0
+	for _, word := range words {
+		if strings.HasPrefix(word, pref) {
+			c++
+		}
+	}
+	return c
+}
+
 func intersection(nums1 []int, nums2 []int) []int {
 	c1 := make(map[int]int)
 	c2 := make(map[int]int)
